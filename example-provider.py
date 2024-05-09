@@ -242,10 +242,10 @@ class Engine:
 
         self.send(f"position fen {work['initialFen']} moves {' '.join(work['moves'])}")
 
-        if work["movetime"]:
-            self.send(f"go movetime {work['movetime']}")
-        else:
-            self.send(f"go depth {self.args.default_depth}")
+        for key in ["movetime", "depth", "nodes"]:
+            if key in work:
+                self.send(f"go {key} {work[key]}")
+                break
 
         job_started.set()
 
